@@ -16,3 +16,11 @@ class Physics:
             if solid != comp and solid.rect.colliderect(comp.rect):
                 collided_with.append(solid)
         return collided_with
+
+    @staticmethod
+    def get_rect_collisions(rect):
+        collided_with = []
+        for solid in Physics.solids:
+            if solid.rect.colliderect(rect):
+                collided_with.append(solid)
+        return collided_with

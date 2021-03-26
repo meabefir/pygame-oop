@@ -1,8 +1,10 @@
 import pygame, sys
 from GameTime import GameTime
+from GameData import GameData
 from CompContainer import CompContainer
 from LevelComp import LevelComp
 from Input import Input
+from Events import Events
 
 from TextureLoader import textures
 

@@ -9,6 +9,9 @@ class Vector2:
     def get_length(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
 
+    def get_squared_length(self):
+        return self.x * self.x + self.y * self.y
+
     def normalized(self):
         temp_vec = self
         length = temp_vec.get_length()
@@ -38,8 +41,8 @@ class Vector2:
     def __mul__(self, value):
         return Vector2(self.x * value, self.y * value)
 
-    def __mul__(self, value):
-        return Vector2(self.x * value, self.y * value)
+    def to_int(self):
+        return Vector2(int(self.x), int(self.y))
 
     def __str__(self):
         return f'({self.x},{self.y})'

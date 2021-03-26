@@ -5,6 +5,7 @@ from DynamicComp import DynamicComp
 from Player import Player
 from Enemy import Enemy
 from Sprite import Sprite
+from Pathfinder import Pathfinder
 
 comp_map = {
     '#': StaticComp,
@@ -18,8 +19,13 @@ class LevelComp(CompContainer):
     def __init__(self, level):
         CompContainer.__init__(self)
         self.name = level
+        self.rows = None
+        self.cols = None
 
         self.build_level()
+
+        GameData.current_level = self
+        Pathfinder.update_table()
 
     def self_handle_event(self):
         self.handle_event()
@@ -48,6 +54,9 @@ class LevelComp(CompContainer):
 
                 row += 1
                 line = f.readline()
+                if self.cols is None:
+                    self.cols = col
+            self.rows = row
 
         super().fix_draw_order()
 
@@ -69,11 +78,11 @@ class LevelComp(CompContainer):
 
         # create player
         if comp_type == 'p':
-            temp_sprite = Sprite("player", GameData.tile_size - 20, GameData.tile_size - 20, row * GameData.tile_size,
+            temp_sprite = Sprite("player", GameData.tile_size, GameData.tile_size, row * GameData.tile_size,
                                  col * GameData.tile_size)
             new_player = comp_map[comp_type](row * GameData.tile_size, col * GameData.tile_size,
-                                             GameData.tile_size - 20,
-                                             GameData.tile_size - 20, temp_sprite)
+                                             GameData.tile_size,
+                                             GameData.tile_size, temp_sprite)
             self.add_component(new_player, 30)
 
         # create enemy

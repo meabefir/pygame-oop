@@ -4,6 +4,15 @@ from CompContainer import CompContainer
 from Vector2 import Vector2
 from GameTime import GameTime
 from Input import Input
+from GameData import GameData
+from Pathfinder import Pathfinder
+
+directions = {
+    pygame.K_a: (-1, 0),
+    pygame.K_d: (1, 0),
+    pygame.K_w: (0, -1),
+    pygame.K_s: (0, 1),
+}
 
 
 class Player(DynamicComp, CompContainer):
@@ -13,18 +22,24 @@ class Player(DynamicComp, CompContainer):
         self.input_vector = Vector2()
         self.speed = 300
 
+        GameData.player = self
+
     def self_handle_event(self):
-        self.input_vector = Vector2()
-        if Input.is_held(pygame.K_a):
-            self.input_vector.x -= 1
-        if Input.is_held(pygame.K_d):
-            self.input_vector.x += 1
-        if Input.is_held(pygame.K_w):
-            self.input_vector.y -= 1
-        if Input.is_held(pygame.K_s):
-            self.input_vector.y += 1
-        self.input_vector = self.input_vector.normalized()
+        if self.destination is None:
+            free_cells = self.get_free_cells()
+            for key in directions:
+                if Input.is_held(key) and directions[key] in free_cells:
+                    self.move_to_cell(directions[key])
 
     def self_update(self):
-        move_vec = self.input_vector * self.speed * GameTime.delta
-        self.move(move_vec)
+        # if it has a destination to reach
+        if self.destination is not None:
+            movement_vec = self.position.move_towards(self.destination, self.speed * GameTime.delta) - self.position
+
+            # if reached destionation
+            if self.position + movement_vec == self.destination:
+                self.destination = None
+                self.move(movement_vec)
+                Pathfinder.update_table()
+            else:
+                self.move(movement_vec)

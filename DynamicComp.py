@@ -2,7 +2,8 @@ import pygame
 from CompContainer import CompContainer
 from Vector2 import Vector2
 from Physics import Physics
-
+from GameData import GameData
+from GameTime import GameTime
 
 class DynamicComp(CompContainer):
     def __init__(self, x, y, width, height, sprite):
@@ -15,8 +16,9 @@ class DynamicComp(CompContainer):
         self.sprite = sprite
         self.position = Vector2(x, y)
         self.velocity = Vector2()
+        self.destination = None
 
-        Physics.add_solid(self)
+        # Physics.add_solid(self)
 
     def self_handle_event(self):
         pass
@@ -54,24 +56,23 @@ class DynamicComp(CompContainer):
                 self.rect.top = collided_with.rect.bottom
                 self.position.y = self.rect.y
 
+        self.position = self.position.to_int()
         self.sprite.position = self.position
         self.rect = pygame.Rect(self.position.x, self.position.y, self.rect.width, self.rect.height)
 
-        # self.position += move_vec
-        # collisions = Physics.get_collisions(self)
-        # # if there were no collisions
-        # if len(collisions) == 0:
-        #     self.sprite.position = self.position
-        #     self.rect = pygame.Rect(self.position.x, self.position.y, self.rect.width, self.rect.height)
-        # else:
-        #     for collided_with in collisions:
-        #         if move_vec.x > 0:
-        #             self.rect.right = collided_with.rect.left
-        #         if move_vec.x < 0:
-        #             self.rect.left = collided_with.rect.right
-        #         if move_vec.y > 0:
-        #             self.rect.bottom = collided_with.rect.top
-        #         if move_vec.y < 0:
-        #             self.rect.top = collided_with.rect.bottom
-        #     self.position = Vector2(self.rect.x, self.rect.y)
-        #     self.sprite.position = self.position
+    def get_free_cells(self):
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        free_cells = []
+        for direction in directions:
+            temp_rect = pygame.Rect(self.position.x + direction[0] * GameData.tile_size,
+                                    self.position.y + direction[1] * GameData.tile_size,
+                                    self.rect.width,
+                                    self.rect.height)
+            temp_collisions = Physics.get_rect_collisions(temp_rect)
+            if len(temp_collisions) == 0:
+                free_cells.append(direction)
+        return free_cells
+
+    def move_to_cell(self, cell):
+        movement = Vector2(cell[0], cell[1]) * GameData.tile_size
+        self.destination = self.position + movement
