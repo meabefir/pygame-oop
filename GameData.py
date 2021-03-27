@@ -6,3 +6,7 @@ class GameData:
     game = None
     window_size = (1280, 720)
     background_color = (255, 255, 255)
+
+    player_data = {
+        "max_hp": 5
+    }

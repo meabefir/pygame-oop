@@ -29,10 +29,10 @@ class LoginComp(UIComp, CompContainer):
 
     def init(self):
         # login input
-        self.username_input = InputComp(100, 100, 200, 50, "username", 44, 5)
+        self.username_input = InputComp(100, 100, 200, 50, "username", 44, 5, "test")
         self.add_component(self.username_input)
         # register input
-        self.password_input = InputComp(100, 200, 200, 50, "password", 44, 5)
+        self.password_input = InputComp(100, 200, 200, 50, "password", 44, 5, "test")
         self.add_component(self.password_input)
         # login button
         new_login_button = ButtonComp(100, 300, 200, 50, "Login", 44, pygame.Color("dodgerblue"), pygame.Color("Black"),

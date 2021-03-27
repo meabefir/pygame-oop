@@ -1,6 +1,6 @@
 import pygame
 from Vector2 import Vector2
-from Physics import Physics
+from CollisionTypes import CollisionTypes
 
 
 class StaticComp:
@@ -12,8 +12,6 @@ class StaticComp:
         self.rect = pygame.Rect(x, y, width, height)
         self.sprite = sprite
         self.position = Vector2(x, y)
-
-        Physics.add_solid(self)
 
     def self_draw(self, win):
         self.sprite.draw(win)

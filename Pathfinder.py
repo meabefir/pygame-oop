@@ -1,5 +1,6 @@
 from Physics import Physics
 from GameData import GameData
+from CollisionTypes import CollisionTypes
 import math
 
 directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -21,7 +22,7 @@ class Pathfinder:
     def update_table():
         Pathfinder.reset_table()
 
-        for solid in Physics.solids:
+        for solid in Physics.collidables[CollisionTypes.solid]:
             solid_world_x, solid_world_y = solid.position.x // GameData.tile_size, solid.position.y // GameData.tile_size
             Pathfinder.table[solid_world_y][solid_world_x] = math.inf
 

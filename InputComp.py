@@ -5,14 +5,15 @@ pygame.init()
 
 
 class InputComp(UIComp):
-    def __init__(self, x, y, w, h, placeholder='', font_size=32, outline=2, color_inactive=pygame.Color("gray"),
+    def __init__(self, x, y, w, h, placeholder='', font_size=32, outline=2, text="",
+                 color_inactive=pygame.Color("gray"),
                  color_active=pygame.Color("black")):
         UIComp.__init__(self, x, y, w, h)
         self.color_inactive = color_inactive
         self.color_active = color_active
         self.color = self.color_inactive
         self.placeholder = placeholder
-        self.text = ""
+        self.text = text
         self.font_size = font_size
         self.outline = outline
 

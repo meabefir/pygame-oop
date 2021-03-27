@@ -19,13 +19,11 @@ class DynamicComp(CompContainer):
         self.velocity = Vector2()
         self.destination = None
 
-        # Physics.add_solid(self)
-
     def self_handle_event(self, event):
-        pass
+        self.handle_event(event)
 
     def self_update(self):
-        pass
+        self.update()
 
     def self_draw(self, win):
         self.sprite.draw(win)
@@ -33,7 +31,7 @@ class DynamicComp(CompContainer):
     def move(self, move_vec):
         # horizontal collisions
         self.position.x += move_vec.x
-        self.rect.left = self.position.x
+        self.rect.left = int(self.position.x)
         collisions = Physics.get_collisions(self)
 
         for collided_with in collisions:
@@ -46,7 +44,7 @@ class DynamicComp(CompContainer):
 
         # vertical collision
         self.position.y += move_vec.y
-        self.rect.top = self.position.y
+        self.rect.top = int(self.position.y)
         collisions = Physics.get_collisions(self)
 
         for collided_with in collisions:
@@ -64,7 +62,7 @@ class DynamicComp(CompContainer):
     def move_to_random_free_cell(self):
         free_cells = self.get_free_cells()
         if len(free_cells):
-            self.move_to_cell(free_cells[random.randint(0, len(free_cells)-1)])
+            self.move_to_cell(free_cells[random.randint(0, len(free_cells) - 1)])
 
     def get_free_cells(self):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]

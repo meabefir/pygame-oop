@@ -23,6 +23,7 @@ class Database:
         _user, _pass = user_data["username"], user_data["password"]
         if Database.get_user(_user) is None:
             Database.data[_user] = user_data
+            Database.data[_user]["coins"] = 0
             Database.data[_user]["level"] = 0
             Database.data[_user]["xp"] = 0
             Database.data[_user]["completed_levels"] = []

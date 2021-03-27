@@ -21,6 +21,6 @@ class Sprite:
     def self_update(self):
         pass
 
-    def self_draw(self, win):
+    def self_draw(self, win, offset=(0, 0)):
         win.blit(pygame.transform.scale(self.surface, (self.width, self.height)),
-                 (int(self.position.x), int(self.position.y)))
+                 (int(self.position.x + offset[0]), int(self.position.y + offset[1])))

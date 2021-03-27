@@ -1,19 +1,23 @@
 import pygame
 from GameData import GameData
 from CompContainer import CompContainer
-from StaticComp import StaticComp
+from WallComp import WallComp
 from Physics import Physics
 from Player import Player
 from Enemy import Enemy
 from Sprite import Sprite
 from Pathfinder import Pathfinder
 from Events import Events
+from CoinComp import CoinComp
+from HeartsComp import HeartsComp
 
 comp_map = {
-    '#': StaticComp,
+    '#': WallComp,
+    ' ': WallComp,
     'p': Player,
     'e': Enemy,
-    '.': Sprite
+    '.': Sprite,
+    '$': CoinComp
 }
 
 
@@ -31,7 +35,6 @@ class LevelComp(CompContainer):
 
         GameData.current_level = self
         Pathfinder.update_table()
-
 
     def self_handle_event(self, event):
         if not self.paused:
@@ -54,6 +57,7 @@ class LevelComp(CompContainer):
     def init(self):
         self.build_level()
 
+        self.load_ui()
         # create pause menu
 
     def build_level(self):
@@ -78,6 +82,12 @@ class LevelComp(CompContainer):
 
         super().fix_draw_order()
 
+    def load_ui(self):
+        # hearts component
+        temp_sprite = Sprite("heart", 50, 50, 0, 0)
+        new_heart_comp = HeartsComp(0, 0, 0, 0, temp_sprite)
+        self.add_component(new_heart_comp)
+
     def create_component(self, comp_type, row, col):
         # create background
         if comp_type != '#':
@@ -85,8 +95,17 @@ class LevelComp(CompContainer):
                                     col * GameData.tile_size)
             self.add_component(new_background, 0)
 
+        # money
+        if comp_type == '$':
+            temp_sprite = Sprite('coin', GameData.tile_size, GameData.tile_size, row * GameData.tile_size,
+                                 col * GameData.tile_size)
+            new_coin = comp_map[comp_type](row * GameData.tile_size, col * GameData.tile_size, GameData.tile_size,
+                                           GameData.tile_size,
+                                           temp_sprite)
+            self.add_component(new_coin, 5)
+
         # create walls
-        if comp_type == '#':
+        if comp_type == '#' or comp_type == ' ':
             temp_sprite = Sprite('wall', GameData.tile_size, GameData.tile_size, row * GameData.tile_size,
                                  col * GameData.tile_size)
             new_wall = comp_map[comp_type](row * GameData.tile_size, col * GameData.tile_size, GameData.tile_size,

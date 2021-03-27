@@ -26,10 +26,11 @@ class LevelSelectorComp(CompContainer, UIComp):
         margin = 10
         for i, level in enumerate(self.levels):
             level_name = level.split('.')[0]
+            callback = self.load_level if level_name not in GameData.user.data["completed_levels"] else None
             new_level_button = LevelButtonComp(self.x + self.width / 2 - size[0] / 2,
                                                self.y + y_start + i * (size[1] + margin),
                                                size[0], size[1], level_name, 40,
-                                               pygame.Color("dodgerblue"), (255, 255, 255), None, self.load_level,
+                                               pygame.Color("dodgerblue"), (255, 255, 255), None, callback,
                                                level_name)
             self.add_component(new_level_button)
 

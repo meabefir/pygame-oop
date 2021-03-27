@@ -4,6 +4,8 @@ from CompContainer import CompContainer
 from Vector2 import Vector2
 from GameTime import GameTime
 from Pathfinder import Pathfinder
+from Physics import Physics
+from CollisionTypes import CollisionTypes
 import random
 
 
@@ -13,7 +15,11 @@ class Enemy(DynamicComp, CompContainer):
         CompContainer.__init__(self)
         self.input_vector = Vector2()
         self.speed = 200
-        self.follow_distance = 13
+        self.follow_distance = 5
+        self.damage = 1
+
+        self.collision_type = CollisionTypes.enemy
+        Physics.add(self, CollisionTypes.enemy)
 
         # self.timer = Timer(self.timer_timeout)
         # self.add_component(self.timer)
