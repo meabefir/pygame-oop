@@ -1,10 +1,8 @@
 import pygame
-from CompContainer import CompContainer
 
 
-class UIComp(CompContainer):
+class UIComp:
     def __init__(self, x, y, width, height):
-        CompContainer.__init__(self)
         self.x = x
         self.y = y
         self.width = width

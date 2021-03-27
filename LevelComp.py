@@ -2,7 +2,7 @@ import pygame
 from GameData import GameData
 from CompContainer import CompContainer
 from StaticComp import StaticComp
-from Input import Input
+from Physics import Physics
 from Player import Player
 from Enemy import Enemy
 from Sprite import Sprite
@@ -25,10 +25,13 @@ class LevelComp(CompContainer):
         self.cols = None
         self.paused = False
 
+        Physics.clear()
+
         self.init()
 
         GameData.current_level = self
         Pathfinder.update_table()
+
 
     def self_handle_event(self, event):
         if not self.paused:

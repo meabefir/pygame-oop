@@ -1,5 +1,6 @@
 import pygame
 import queue
+from Physics import Physics
 
 
 class CompContainer:
@@ -18,7 +19,7 @@ class CompContainer:
         if comp in self.components:
             self.components.remove(comp)
         for com_pr in self.com_prio:
-            if com_pr[0] == comp:
+            if com_pr[1] == comp:
                 self.com_prio.remove(com_pr)
                 break
 

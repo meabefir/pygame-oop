@@ -4,15 +4,17 @@ from LevelSelectorComp import LevelSelectorComp
 from UIComp import UIComp
 from Events import Events
 from PauseMenuComp import PauseMenuComp
+from CompContainer import CompContainer
 
 
-class CanvasComp(UIComp):
+class CanvasComp(UIComp, CompContainer):
     def __init__(self, x, y, width, height):
+        CompContainer.__init__(self)
         UIComp.__init__(self, x, y, width, height)
 
         Events.connect("toggle_pause_menu", self, self.toggle_pause_menu)
 
-        # self.load_login_menu()
+        self.load_login_menu()
         # self.load_level_selector()
 
     def self_handle_event(self, event):

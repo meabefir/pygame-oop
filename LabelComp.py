@@ -19,7 +19,7 @@ class LabelComp(UIComp):
                          (self.x + (self.width / 2 - text.get_width() / 2),
                           self.y + (self.height / 2 - text.get_height() * (len(lines) - i))))
 
-    def self_handle_event(self):
+    def self_handle_event(self, event):
         pass
 
     def self_update(self):

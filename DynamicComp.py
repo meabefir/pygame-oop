@@ -3,7 +3,8 @@ from CompContainer import CompContainer
 from Vector2 import Vector2
 from Physics import Physics
 from GameData import GameData
-from GameTime import GameTime
+import random
+
 
 class DynamicComp(CompContainer):
     def __init__(self, x, y, width, height, sprite):
@@ -58,7 +59,12 @@ class DynamicComp(CompContainer):
 
         # self.position = self.position.to_int()
         self.sprite.position = self.position
-        self.rect = pygame.Rect(self.position.x, self.position.y, self.rect.width, self.rect.height)
+        self.rect = pygame.Rect(int(self.position.x), int(self.position.y), self.rect.width, self.rect.height)
+
+    def move_to_random_free_cell(self):
+        free_cells = self.get_free_cells()
+        if len(free_cells):
+            self.move_to_cell(free_cells[random.randint(0, len(free_cells)-1)])
 
     def get_free_cells(self):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]

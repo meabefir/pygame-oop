@@ -13,7 +13,7 @@ class Enemy(DynamicComp, CompContainer):
         CompContainer.__init__(self)
         self.input_vector = Vector2()
         self.speed = 200
-        self.follow_distance = 3
+        self.follow_distance = 13
 
         # self.timer = Timer(self.timer_timeout)
         # self.add_component(self.timer)
@@ -31,6 +31,8 @@ class Enemy(DynamicComp, CompContainer):
             cell_value = Pathfinder.get_cell_value(self.position)
             if dir is not None and cell_value <= self.follow_distance:
                 self.move_to_cell(dir)
+            else:
+                self.move_to_random_free_cell()
 
         # if it has a destination
         if self.destination is not None:

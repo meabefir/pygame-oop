@@ -1,10 +1,12 @@
 import pygame
 from UIComp import UIComp
+from CompContainer import CompContainer
 
 
-class ButtonComp(UIComp):
+class ButtonComp(UIComp, CompContainer):
     def __init__(self, x, y, width, height, text='', font_size=32, background_color=(255, 255, 255), color=(0, 0, 0),
                  outline_color=None, callback=None, *args):
+        CompContainer.__init__(self)
         UIComp.__init__(self, x, y, width, height)
         self.text = text
         self.font_size = font_size
@@ -44,7 +46,7 @@ class ButtonComp(UIComp):
             if event.button == 1:
                 if self.isOver(pygame.mouse.get_pos()) and self.mouse_down_over:
                     if self.callback is not None:
-                        self.callback(self.args)
+                        self.callback(*self.args)
 
     def self_update(self):
         self.update()

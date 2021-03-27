@@ -3,10 +3,12 @@ import os
 from UIComp import UIComp
 from LevelButtonComp import LevelButtonComp
 from GameData import GameData
+from CompContainer import CompContainer
 
 
-class LevelSelectorComp(UIComp):
+class LevelSelectorComp(CompContainer, UIComp):
     def __init__(self, x, y, width, height):
+        CompContainer.__init__(self)
         UIComp.__init__(self, x, y, width, height)
 
         self.levels = []
@@ -32,7 +34,7 @@ class LevelSelectorComp(UIComp):
             self.add_component(new_level_button)
 
     def load_level(self, *args):
-        GameData.game.load_level(args[0][0])
+        GameData.game.load_level(args[0])
         self.parent.remove_component(self)
 
     def self_handle_event(self, event):

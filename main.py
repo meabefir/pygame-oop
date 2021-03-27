@@ -20,7 +20,7 @@ class Game(CompContainer):
     def __init__(self):
         CompContainer.__init__(self)
 
-        self.load_level("level2")
+        # self.load_level("level2")
         self.load_UI()
 
     def run(self):
@@ -35,9 +35,18 @@ class Game(CompContainer):
         self.draw(window)
         pygame.display.update()
 
+    def clear_level(self):
+        level_playing = self.has_component_of_class(LevelComp)
+        if level_playing is not None:
+            self.remove_component(level_playing)
+
     def load_level(self, name):
+        self.clear_level()
+        # create new level
         new_level = LevelComp(name)
         self.add_component(new_level, 0)
+
+        self.fix_draw_order()
 
     def load_UI(self):
         new_ui = CanvasComp(0, 0, GameData.window_size[0], GameData.window_size[1])
