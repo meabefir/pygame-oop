@@ -27,8 +27,8 @@ class LevelComp(CompContainer):
         GameData.current_level = self
         Pathfinder.update_table()
 
-    def self_handle_event(self):
-        self.handle_event()
+    def self_handle_event(self, event):
+        self.handle_event(event)
         pass
 
     def self_update(self):

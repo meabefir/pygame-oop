@@ -20,7 +20,7 @@ class DynamicComp(CompContainer):
 
         # Physics.add_solid(self)
 
-    def self_handle_event(self):
+    def self_handle_event(self, event):
         pass
 
     def self_update(self):
@@ -56,7 +56,7 @@ class DynamicComp(CompContainer):
                 self.rect.top = collided_with.rect.bottom
                 self.position.y = self.rect.y
 
-        self.position = self.position.to_int()
+        # self.position = self.position.to_int()
         self.sprite.position = self.position
         self.rect = pygame.Rect(self.position.x, self.position.y, self.rect.width, self.rect.height)
 

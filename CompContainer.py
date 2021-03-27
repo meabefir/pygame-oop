@@ -13,7 +13,7 @@ class CompContainer:
         comp.parent = self
         self.components.append(comp)
 
-    #DANGER! should also be removed from self.com_prio ?
+    # DANGER! should also be removed from self.com_prio ?
     def remove_component(self, comp):
         if comp in self.components:
             self.components.remove(comp)
@@ -24,9 +24,9 @@ class CompContainer:
         for com in self.com_prio:
             self.components.append(com[1])
 
-    def handle_event(self):
+    def handle_event(self, event):
         for component in self.components:
-            component.self_handle_event()
+            component.self_handle_event(event)
 
     def update(self):
         for component in self.components:

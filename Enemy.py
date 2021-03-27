@@ -1,13 +1,10 @@
-import pygame
-import random
+from Timer import Timer
 from DynamicComp import DynamicComp
 from CompContainer import CompContainer
 from Vector2 import Vector2
 from GameTime import GameTime
 from Pathfinder import Pathfinder
-from GameData import GameData
-from Physics import Physics
-from Input import Input
+import random
 
 
 class Enemy(DynamicComp, CompContainer):
@@ -18,17 +15,15 @@ class Enemy(DynamicComp, CompContainer):
         self.speed = 200
         self.follow_distance = 3
 
-    def self_handle_event(self):
+        # self.timer = Timer(self.timer_timeout)
+        # self.add_component(self.timer)
+        # self.timer.start(1)
+
+    def self_handle_event(self, event):
         pass
 
     def self_update(self):
-        # choose random destination
-        # if self.destination is None:
-        #     free_cells = self.get_free_cells()
-        #     if len(free_cells) == 0:
-        #         return
-        #     random_free_cell = free_cells[random.randint(0, len(free_cells) - 1)]
-        #     self.move_to_cell(random_free_cell)
+        self.update()
 
         # follow player if ready to move
         if self.destination is None:
@@ -46,3 +41,13 @@ class Enemy(DynamicComp, CompContainer):
                 self.move(movement_vec)
             else:
                 self.move(movement_vec)
+
+    def timer_timeout(self):
+        if self.destination is None:
+            free_cells = self.get_free_cells()
+            if len(free_cells) == 0:
+                return
+            random_free_cell = free_cells[random.randint(0, len(free_cells) - 1)]
+            self.move_to_cell(random_free_cell)
+
+        self.timer.start(1)

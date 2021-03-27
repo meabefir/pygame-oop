@@ -18,7 +18,7 @@ class StaticComp:
     def self_draw(self, win):
         self.sprite.draw(win)
 
-    def self_handle_event(self):
+    def self_handle_event(self, event):
         pass
 
     def self_update(self):

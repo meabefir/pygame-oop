@@ -12,13 +12,15 @@ class Sprite:
         self.position = Vector2(x, y)
 
     def draw(self, win):
-        win.blit(pygame.transform.scale(self.surface, (self.width, self.height)), (int(self.position.x), int(self.position.y)))
+        win.blit(pygame.transform.scale(self.surface, (self.width, self.height)),
+                 (int(self.position.x), int(self.position.y)))
 
-    def self_handle_event(self):
+    def self_handle_event(self, event):
         pass
 
     def self_update(self):
         pass
 
     def self_draw(self, win):
-        win.blit(pygame.transform.scale(self.surface, (self.width, self.height)), (int(self.position.x), int(self.position.y)))
+        win.blit(pygame.transform.scale(self.surface, (self.width, self.height)),
+                 (int(self.position.x), int(self.position.y)))

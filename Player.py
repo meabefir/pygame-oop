@@ -24,7 +24,7 @@ class Player(DynamicComp, CompContainer):
 
         GameData.player = self
 
-    def self_handle_event(self):
+    def self_handle_event(self, event):
         if self.destination is None:
             free_cells = self.get_free_cells()
             for key in directions:

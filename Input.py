@@ -29,9 +29,8 @@ class Input:
 
     @staticmethod
     def is_held(key):
-        if key in Input.held and Input.held[key]:
-            return True
-        return False
+        if key in Input.held:
+            return Input.held[key]
 
     @staticmethod
     def is_just_pressed(key):

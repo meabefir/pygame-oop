@@ -36,8 +36,10 @@ class Pathfinder:
 
     @staticmethod
     def bfs():
-        player_world_x, player_world_y = GameData.player.position.x // GameData.tile_size, GameData.player.position.y // GameData.tile_size
-        # Pathfinder.table[player_world_y][player_world_x] = 'p'
+        if GameData.player is None:
+            return
+        player_world_x, player_world_y = int(GameData.player.position.x // GameData.tile_size), int(
+            GameData.player.position.y // GameData.tile_size)
         q = [(player_world_y, player_world_x)]
         visited = [(player_world_y, player_world_x)]
 
@@ -56,7 +58,7 @@ class Pathfinder:
 
     @staticmethod
     def get_smaller_cell_dir(position):
-        world_col, world_row = position.x // GameData.tile_size, position.y // GameData.tile_size
+        world_col, world_row = int(position.x // GameData.tile_size), int(position.y // GameData.tile_size)
 
         for dir in directions:
             if Pathfinder.in_bounds(world_row + dir[1], world_col + dir[0]):
@@ -67,7 +69,7 @@ class Pathfinder:
 
     @staticmethod
     def get_cell_value(position):
-        world_col, world_row = position.x // GameData.tile_size, position.y // GameData.tile_size
+        world_col, world_row = int(position.x // GameData.tile_size), int(position.y // GameData.tile_size)
 
         if Pathfinder.in_bounds(world_row, world_col):
             return Pathfinder.table[world_row][world_col]
