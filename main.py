@@ -20,7 +20,7 @@ class Game(CompContainer):
     def __init__(self):
         CompContainer.__init__(self)
 
-        # self.load_level("level2")
+        self.load_level("level2")
         self.load_UI()
 
     def run(self):
@@ -37,14 +37,15 @@ class Game(CompContainer):
 
     def load_level(self, name):
         new_level = LevelComp(name)
-        self.add_component(new_level)
+        self.add_component(new_level, 0)
 
     def load_UI(self):
-        new_ui = CanvasComp()
-        self.add_component(new_ui)
+        new_ui = CanvasComp(0, 0, GameData.window_size[0], GameData.window_size[1])
+        self.add_component(new_ui, 10)
 
 
 game = Game()
+GameData.game = game
 
 running = True
 while running:

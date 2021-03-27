@@ -13,10 +13,20 @@ class CompContainer:
         comp.parent = self
         self.components.append(comp)
 
-    # DANGER! should also be removed from self.com_prio ?
+    # DANGER! should also be removed from self.com_prio ? fixed??
     def remove_component(self, comp):
         if comp in self.components:
             self.components.remove(comp)
+        for com_pr in self.com_prio:
+            if com_pr[0] == comp:
+                self.com_prio.remove(com_pr)
+                break
+
+    def has_component_of_class(self, _class):
+        for comp in self.components:
+            if isinstance(comp, _class):
+                return comp
+        return None
 
     def fix_draw_order(self):
         self.com_prio.sort(key=lambda com: com[0])
@@ -36,7 +46,7 @@ class CompContainer:
         for component in self.components:
             component.self_draw(win)
 
-    # def self_handle_event(self):
+    # def self_handle_event(self, event):
     #     pass
     #
     # def self_update(self):

@@ -23,15 +23,19 @@ class Database:
         _user, _pass = user_data["username"], user_data["password"]
         if Database.get_user(_user) is None:
             Database.data[_user] = user_data
-            Database.data[_user]["max_score"] = 0
+            Database.data[_user]["level"] = 0
+            Database.data[_user]["xp"] = 0
+            Database.data[_user]["completed_levels"] = []
 
     @staticmethod
     def attempt_login(login_data):
         _user, _pass = login_data["username"].strip(), login_data["password"].strip()
         if Database.get_user(_user) and Database.data[_user]["password"] == _pass:
             Events.emit('login_success', Database.data[_user])
+            return Database.data[_user]
         else:
             Events.emit('login_fail')
+            return None
 
     @staticmethod
     def attempt_register(register_data):
@@ -40,8 +44,10 @@ class Database:
             Database.register_user(register_data)
             Events.emit("register_success", Database.data[_user])
             Database.save_database()
+            return Database.data[_user]
         else:
             Events.emit("register_fail")
+            return None
 
     @staticmethod
     def update_user(user_data):

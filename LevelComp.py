@@ -1,11 +1,13 @@
+import pygame
 from GameData import GameData
 from CompContainer import CompContainer
 from StaticComp import StaticComp
-from DynamicComp import DynamicComp
+from Input import Input
 from Player import Player
 from Enemy import Enemy
 from Sprite import Sprite
 from Pathfinder import Pathfinder
+from Events import Events
 
 comp_map = {
     '#': StaticComp,
@@ -21,22 +23,35 @@ class LevelComp(CompContainer):
         self.name = level
         self.rows = None
         self.cols = None
+        self.paused = False
 
-        self.build_level()
+        self.init()
 
         GameData.current_level = self
         Pathfinder.update_table()
 
     def self_handle_event(self, event):
-        self.handle_event(event)
-        pass
+        if not self.paused:
+            self.handle_event(event)
+
+        if event is None:
+            return
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                Events.emit("toggle_pause_menu")
+                self.paused = not self.paused
 
     def self_update(self):
-        self.update()
-        pass
+        if not self.paused:
+            self.update()
 
     def self_draw(self, win):
         self.draw(win)
+
+    def init(self):
+        self.build_level()
+
+        # create pause menu
 
     def build_level(self):
         file_path = f'levels/{self.name}.txt'

@@ -3,6 +3,9 @@ from CompContainer import CompContainer
 from UIComp import UIComp
 from InputComp import InputComp
 from ButtonComp import ButtonComp
+from Database import Database
+from User import User
+from GameData import GameData
 
 
 class LoginComp(UIComp, CompContainer):
@@ -26,11 +29,11 @@ class LoginComp(UIComp, CompContainer):
 
     def init(self):
         # login input
-        new_input = InputComp(100, 100, 200, 50, "username", 44, 5)
-        self.add_component(new_input)
+        self.username_input = InputComp(100, 100, 200, 50, "username", 44, 5)
+        self.add_component(self.username_input)
         # register input
-        new_register = InputComp(100, 200, 200, 50, "password", 44, 5)
-        self.add_component(new_register)
+        self.password_input = InputComp(100, 200, 200, 50, "password", 44, 5)
+        self.add_component(self.password_input)
         # login button
         new_login_button = ButtonComp(100, 300, 200, 50, "Login", 44, pygame.Color("dodgerblue"), pygame.Color("Black"),
                                       pygame.Color("lightskyblue3"),
@@ -41,8 +44,30 @@ class LoginComp(UIComp, CompContainer):
                                          pygame.Color("Black"), pygame.Color("lightskyblue3"), self.attempt_register)
         self.add_component(new_register_button)
 
-    def attempt_login(self):
-        print("login pressed")
+    def attempt_login(self, *args):
+        login_data = {
+            "username": self.username_input.text,
+            "password": self.password_input.text,
+        }
+        result = Database.attempt_login(login_data)
 
-    def attempt_register(self):
-        print("Register")
+        if result is not None:
+            user = User(result)
+            GameData.user = user
+
+            self.parent.remove_component(self)
+            self.parent.load_main_menu()
+
+    def attempt_register(self, *args):
+        register_data = {
+            "username": self.username_input.text,
+            "password": self.password_input.text,
+        }
+        result = Database.attempt_register(register_data)
+
+        if result is not None:
+            user = User(result)
+            GameData.user = user
+
+            self.parent.remove_component(self)
+            self.parent.load_main_menu()
