@@ -1,4 +1,5 @@
 from Events import Events
+from Database import Database
 
 
 class User:
@@ -6,6 +7,7 @@ class User:
         self.data = data
 
         Events.connect("coin_picked", self, self.coin_picked)
+        Events.connect("level_completed", self, self.level_completed)
 
     def set_data(self, data):
         self.data = data
@@ -20,3 +22,11 @@ class User:
             "coins": self.data["coins"] + 1
         }
         self.update_data(new_data)
+
+    def level_completed(self, level):
+        new_data = {
+            "completed_levels": self.data["completed_levels"] + [level]
+        }
+        self.update_data(new_data)
+        Database.update_user(self.data)
+        # Database.save_database() # already in update user

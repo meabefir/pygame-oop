@@ -21,5 +21,5 @@ class HeartsComp(UIComp):
         pass
 
     def self_draw(self, win):
-        for i in range(self.hp):
+        for i in range(int(self.hp)):
             self.sprite.self_draw(win, (i * self.sprite.width, 0))

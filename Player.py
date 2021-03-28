@@ -9,6 +9,8 @@ from Physics import Physics
 from CollisionTypes import CollisionTypes
 from Events import Events
 from Timer import Timer
+from HeartsComp import HeartsComp
+from Sprite import Sprite
 
 directions = {
     pygame.K_a: (-1, 0),
@@ -31,6 +33,8 @@ class Player(DynamicComp):
         self.invincibility_timer = Timer(self.invincibility_timeout)
         self.add_component(self.invincibility_timer)
 
+        self.init()
+
     def self_handle_event(self, event):
         if self.destination is None:
             free_cells = self.get_free_cells()
@@ -40,6 +44,8 @@ class Player(DynamicComp):
 
     def cell_changed(self):
         Pathfinder.update_table()
+
+        self.check_collisions_end()
 
     def check_collisions(self):
         # coins collision
@@ -56,6 +62,16 @@ class Player(DynamicComp):
                 self.hp -= enemy.damage
                 Events.emit("set_hp", self.hp)
                 self.invincibility_timer.start(self.invincibility_time)
+                # reset level ih hp == 0
+                if self.hp == 0:
+                    GameData.game.clear_level()
+                    GameData.game.load_level(self.parent.name)
+
+    def check_collisions_end(self):
+        # door collision
+        door_coll = Physics.get_collisions(self, CollisionTypes.door)
+        if len(door_coll):
+            Events.emit("level_completed", GameData.current_level.name)
 
     def invincibility_timeout(self):
         self.invincible = False
@@ -75,3 +91,9 @@ class Player(DynamicComp):
                 self.cell_changed()
             else:
                 self.move(movement_vec)
+
+    def init(self):
+        # hearts component
+        temp_sprite = Sprite("heart", 50, 50, 0, 0)
+        new_heart_comp = HeartsComp(0, 0, 0, 0, temp_sprite)
+        self.add_component(new_heart_comp)

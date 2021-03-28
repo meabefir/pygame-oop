@@ -9,7 +9,8 @@ from Sprite import Sprite
 from Pathfinder import Pathfinder
 from Events import Events
 from CoinComp import CoinComp
-from HeartsComp import HeartsComp
+from CoinsComp import CoinsComp
+from DoorComp import DoorComp
 
 comp_map = {
     '#': WallComp,
@@ -17,7 +18,8 @@ comp_map = {
     'p': Player,
     'e': Enemy,
     '.': Sprite,
-    '$': CoinComp
+    '$': CoinComp,
+    'd': DoorComp
 }
 
 
@@ -28,6 +30,7 @@ class LevelComp(CompContainer):
         self.rows = None
         self.cols = None
         self.paused = False
+        self.completed = False
 
         Physics.clear()
 
@@ -36,16 +39,20 @@ class LevelComp(CompContainer):
         GameData.current_level = self
         Pathfinder.update_table()
 
+        Events.connect("level_completed", self, self.level_completed)
+
     def self_handle_event(self, event):
         if not self.paused:
             self.handle_event(event)
 
         if event is None:
             return
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                Events.emit("toggle_pause_menu")
-                self.paused = not self.paused
+        # you can only pause if the game has not been completed
+        if self.completed is False:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    Events.emit("toggle_pause_menu")
+                    self.paused = not self.paused
 
     def self_update(self):
         if not self.paused:
@@ -59,6 +66,10 @@ class LevelComp(CompContainer):
 
         self.load_ui()
         # create pause menu
+
+    def level_completed(self, *args):
+        self.completed = True
+        self.paused = True
 
     def build_level(self):
         file_path = f'levels/{self.name}.txt'
@@ -83,10 +94,9 @@ class LevelComp(CompContainer):
         super().fix_draw_order()
 
     def load_ui(self):
-        # hearts component
-        temp_sprite = Sprite("heart", 50, 50, 0, 0)
-        new_heart_comp = HeartsComp(0, 0, 0, 0, temp_sprite)
-        self.add_component(new_heart_comp)
+        new_coins_comp = CoinsComp(GameData.window_size[0] - GameData.tile_size * 2, 0, GameData.tile_size * 2,
+                                   GameData.tile_size)
+        self.add_component(new_coins_comp)
 
     def create_component(self, comp_type, row, col):
         # create background
@@ -112,6 +122,14 @@ class LevelComp(CompContainer):
                                            GameData.tile_size,
                                            temp_sprite)
             self.add_component(new_wall, 10)
+
+        if comp_type == 'd':
+            temp_sprite = Sprite('door', GameData.tile_size, GameData.tile_size, row * GameData.tile_size,
+                                 col * GameData.tile_size)
+            new_door = comp_map[comp_type](row * GameData.tile_size, col * GameData.tile_size, GameData.tile_size,
+                                           GameData.tile_size,
+                                           temp_sprite)
+            self.add_component(new_door, 10)
 
         # create player
         if comp_type == 'p':

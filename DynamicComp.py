@@ -27,6 +27,7 @@ class DynamicComp(CompContainer):
 
     def self_draw(self, win):
         self.sprite.draw(win)
+        self.draw(win)
 
     def move(self, move_vec):
         # horizontal collisions

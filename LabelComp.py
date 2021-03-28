@@ -12,12 +12,14 @@ class LabelComp(UIComp):
     def self_draw(self, win):
         if self.text != '':
             lines = self.text.split("\n")
+            lines_count = len(lines)
+            space_for_one = self.height / (lines_count + 1)
             for i, text_line in enumerate(lines):
                 font = pygame.font.SysFont('comicsans', self.font_size)
                 text = font.render(text_line, 1, self.color)
                 win.blit(text,
                          (self.x + (self.width / 2 - text.get_width() / 2),
-                          self.y + (self.height / 2 - text.get_height() * (len(lines) - i))))
+                          self.y + (i + 1) * (space_for_one - text.get_height() / 2)))
 
     def self_handle_event(self, event):
         pass

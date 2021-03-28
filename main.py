@@ -39,6 +39,7 @@ class Game(CompContainer):
         level_playing = self.has_component_of_class(LevelComp)
         if level_playing is not None:
             self.remove_component(level_playing)
+            GameData.current_level = None
 
     def load_level(self, name):
         self.clear_level()

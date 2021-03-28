@@ -5,6 +5,7 @@ from UIComp import UIComp
 from Events import Events
 from PauseMenuComp import PauseMenuComp
 from CompContainer import CompContainer
+from LevelCompletedMenuComp import LevelCompletedMenuComp
 
 
 class CanvasComp(UIComp, CompContainer):
@@ -13,6 +14,7 @@ class CanvasComp(UIComp, CompContainer):
         UIComp.__init__(self, x, y, width, height)
 
         Events.connect("toggle_pause_menu", self, self.toggle_pause_menu)
+        Events.connect("level_completed", self, self.level_completed)
 
         self.load_login_menu()
         # self.load_level_selector()
@@ -53,3 +55,10 @@ class CanvasComp(UIComp, CompContainer):
             self.add_component(new_pause_menu)
         else:
             self.remove_component(pause_menu_comp)
+
+    def level_completed(self, *args):
+        size = (500, 600)
+        start_y = 100
+        new_level_completed_menu = LevelCompletedMenuComp(self.x + self.width / 2 - size[0] / 2, self.y + start_y,
+                                                          size[0], size[1])
+        self.add_component(new_level_completed_menu)
