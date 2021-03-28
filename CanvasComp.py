@@ -6,6 +6,8 @@ from Events import Events
 from PauseMenuComp import PauseMenuComp
 from CompContainer import CompContainer
 from LevelCompletedMenuComp import LevelCompletedMenuComp
+from MainMenuComp import MainMenuComp
+from UserStatsComp import UserStatsComp
 
 
 class CanvasComp(UIComp, CompContainer):
@@ -32,15 +34,27 @@ class CanvasComp(UIComp, CompContainer):
         pass
 
     def load_login_menu(self):
+        GameData.user = None
         new_login = LoginComp(0, 0, GameData.window_size[0], GameData.window_size[1])
         self.add_component(new_login)
 
     def load_main_menu(self):
+        GameData.game.clear_level()
         if GameData.user is None:
             return
-        self.load_level_selector()
+
+        # load main menu comp
+        size = (500, 700)
+        main_menu_comp = MainMenuComp(self.x + self.width / 2 - size[0] / 2,
+                                      self.y + self.height / 2 - size[1] / 2, size[0], size[1])
+        self.add_component(main_menu_comp)
 
     def load_level_selector(self):
+        # delete main menu comp
+        main_menu_comp = self.has_component_of_class(MainMenuComp)
+        if main_menu_comp:
+            self.remove_component(main_menu_comp)
+
         size = (500, 700)
         level_selector = LevelSelectorComp(self.x + self.width / 2 - size[0] / 2,
                                            self.y + self.height / 2 - size[1] / 2, size[0], size[1])
@@ -62,3 +76,9 @@ class CanvasComp(UIComp, CompContainer):
         new_level_completed_menu = LevelCompletedMenuComp(self.x + self.width / 2 - size[0] / 2, self.y + start_y,
                                                           size[0], size[1])
         self.add_component(new_level_completed_menu)
+
+    def load_user_stats(self):
+        size = (500, 600)
+        start_y = 100
+        user_stats_comp = UserStatsComp(self.x + self.width / 2 - size[0] / 2, self.y + start_y, size[0], size[1])
+        self.add_component(user_stats_comp)

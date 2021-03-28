@@ -11,6 +11,10 @@ class Timer():
         self.time = time
         self.time_passed = 0
 
+    def stop(self):
+        self.time = None
+        self.time_passed = None
+
     def self_handle_event(self, event):
         pass
 
@@ -18,8 +22,7 @@ class Timer():
         if self.time is not None:
             self.time_passed += GameTime.delta
             if self.time_passed >= self.time:
-                self.time = None
-                self.time_passed = None
+                self.stop()
                 self.callback()
 
     def self_draw(self, win):

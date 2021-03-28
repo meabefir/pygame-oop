@@ -52,7 +52,6 @@ class Database:
 
     @staticmethod
     def update_user(user_data):
-        print(user_data)
         username = user_data["username"]
         if username in Database.data:
             for key in user_data:

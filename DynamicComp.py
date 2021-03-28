@@ -19,6 +19,8 @@ class DynamicComp(CompContainer):
         self.velocity = Vector2()
         self.destination = None
 
+        self.add_component(self.sprite)
+
     def self_handle_event(self, event):
         self.handle_event(event)
 
@@ -26,7 +28,6 @@ class DynamicComp(CompContainer):
         self.update()
 
     def self_draw(self, win):
-        self.sprite.draw(win)
         self.draw(win)
 
     def move(self, move_vec):

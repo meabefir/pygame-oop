@@ -7,6 +7,8 @@ class UIComp:
         self.y = y
         self.width = width
         self.height = height
+        self.bottom = self.y + self.height
+        self.right = self.x + self.width
         self.rect = pygame.Rect(x, y, width, height)
 
     def isOver(self, pos):

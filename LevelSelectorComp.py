@@ -4,6 +4,7 @@ from UIComp import UIComp
 from LevelButtonComp import LevelButtonComp
 from GameData import GameData
 from CompContainer import CompContainer
+from ButtonComp import ButtonComp
 
 
 class LevelSelectorComp(CompContainer, UIComp):
@@ -22,7 +23,7 @@ class LevelSelectorComp(CompContainer, UIComp):
                 self.levels.append(file)
 
         size = (400, 70)
-        y_start = 100
+        y_start = 20
         margin = 10
         for i, level in enumerate(self.levels):
             level_name = level.split('.')[0]
@@ -33,6 +34,15 @@ class LevelSelectorComp(CompContainer, UIComp):
                                                pygame.Color("dodgerblue"), (255, 255, 255), None, callback,
                                                level_name)
             self.add_component(new_level_button)
+
+        back_button = ButtonComp(self.x + self.width / 2 - size[0] / 2, self.y + self.height - size[1] - y_start, size[0],
+                                 size[1],
+                                 "Back", 40, pygame.Color("dodgerblue"), callback=self.load_menu, color=(255, 255, 255))
+        self.add_component(back_button)
+
+    def load_menu(self):
+        self.parent.remove_component(self)
+        self.parent.load_main_menu()
 
     def load_level(self, *args):
         GameData.game.load_level(args[0])

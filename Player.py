@@ -11,6 +11,7 @@ from Events import Events
 from Timer import Timer
 from HeartsComp import HeartsComp
 from Sprite import Sprite
+from PowerupTypes import PowerupTypes
 
 directions = {
     pygame.K_a: (-1, 0),
@@ -28,12 +29,42 @@ class Player(DynamicComp):
         self.hp = GameData.player_data["max_hp"]
         self.invincible = False
         self.invincibility_time = 2
+        self.invincible_alpha = 120
+        self.current_powerup = None
 
         GameData.player = self
         self.invincibility_timer = Timer(self.invincibility_timeout)
         self.add_component(self.invincibility_timer)
 
+        self.powerup_timer = Timer(self.powerup_timeout)
+        self.add_component(self.powerup_timer)
+
         self.init()
+
+        Events.connect("powerup_picked", self, self.powerup_picked)
+
+    def powerup_picked(self, powerup_comp):
+        powerup_type = powerup_comp.powerup_type
+        self.current_powerup = powerup_type
+
+        if powerup_type == PowerupTypes.invincibility:
+            self.invincibility_timer.stop()
+            self.set_invincible(True)
+            self.powerup_timer.start(4)
+
+    def powerup_timeout(self):
+        if self.current_powerup == PowerupTypes.invincibility:
+            self.set_invincible(False)
+
+        self.current_powerup = None
+
+    def set_invincible(self, value):
+        self.invincible = value
+
+        if self.invincible:
+            self.sprite.set_alpha(self.invincible_alpha)
+        else:
+            self.sprite.set_alpha(255)
 
     def self_handle_event(self, event):
         if self.destination is None:
@@ -54,18 +85,18 @@ class Player(DynamicComp):
             Events.emit("coin_picked", coin)
 
         # enemy collision
-        if self.invincible is False:
-            enemy_collisions = Physics.get_collisions(self, CollisionTypes.enemy)
-            if len(enemy_collisions):
-                self.invincible = True
-                enemy = enemy_collisions[0]
-                self.hp -= enemy.damage
-                Events.emit("set_hp", self.hp)
-                self.invincibility_timer.start(self.invincibility_time)
-                # reset level ih hp == 0
-                if self.hp == 0:
-                    GameData.game.clear_level()
-                    GameData.game.load_level(self.parent.name)
+        enemy_collisions = Physics.get_collisions(self, CollisionTypes.enemy)
+        if len(enemy_collisions):
+            if self.invincible is False:
+                self.player_hurt(enemy_collisions[0].damage)
+            elif self.current_powerup == PowerupTypes.invincibility:
+                Events.emit("enemy_killed", enemy_collisions[0])
+
+        # powerup collision
+        if self.current_powerup is None:
+            powerup_colls = Physics.get_collisions(self, CollisionTypes.powerup)
+            if len(powerup_colls):
+                Events.emit("powerup_picked", powerup_colls[0])
 
     def check_collisions_end(self):
         # door collision
@@ -73,8 +104,18 @@ class Player(DynamicComp):
         if len(door_coll):
             Events.emit("level_completed", GameData.current_level.name)
 
+    def player_hurt(self, damage):
+        self.set_invincible(True)
+        self.hp -= damage
+        Events.emit("set_hp", self.hp)
+        self.invincibility_timer.start(self.invincibility_time)
+        # reset level ih hp == 0
+        if self.hp == 0:
+            GameData.game.clear_level()
+            GameData.game.load_level(self.parent.name)
+
     def invincibility_timeout(self):
-        self.invincible = False
+        self.set_invincible(False)
 
     def self_update(self):
         self.update()

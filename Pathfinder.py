@@ -69,6 +69,17 @@ class Pathfinder:
         return None
 
     @staticmethod
+    def get_bigger_cell_dir(position):
+        world_col, world_row = int(position.x // GameData.tile_size), int(position.y // GameData.tile_size)
+
+        for dir in directions:
+            if Pathfinder.in_bounds(world_row + dir[1], world_col + dir[0]):
+                if Pathfinder.table[world_row + dir[1]][world_col + dir[0]] >= Pathfinder.table[world_row][
+                   world_col] and Pathfinder.table[world_row + dir[1]][world_col + dir[0]] != math.inf:
+                    return dir
+        return None
+
+    @staticmethod
     def get_cell_value(position):
         world_col, world_row = int(position.x // GameData.tile_size), int(position.y // GameData.tile_size)
 

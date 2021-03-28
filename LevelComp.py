@@ -11,6 +11,9 @@ from Events import Events
 from CoinComp import CoinComp
 from CoinsComp import CoinsComp
 from DoorComp import DoorComp
+from PowerupComp import PowerupComp
+from PowerupTypes import PowerupTypes
+from XpComp import XpComp
 
 comp_map = {
     '#': WallComp,
@@ -19,7 +22,8 @@ comp_map = {
     'e': Enemy,
     '.': Sprite,
     '$': CoinComp,
-    'd': DoorComp
+    'd': DoorComp,
+    'i': PowerupComp
 }
 
 
@@ -98,6 +102,11 @@ class LevelComp(CompContainer):
                                    GameData.tile_size)
         self.add_component(new_coins_comp)
 
+        new_xp_comp = XpComp(GameData.window_size[0] - GameData.tile_size * 2, GameData.tile_size,
+                             GameData.tile_size * 2,
+                             GameData.tile_size * 2)
+        self.add_component(new_xp_comp)
+
     def create_component(self, comp_type, row, col):
         # create background
         if comp_type != '#':
@@ -113,6 +122,16 @@ class LevelComp(CompContainer):
                                            GameData.tile_size,
                                            temp_sprite)
             self.add_component(new_coin, 5)
+
+        # invincibility powerup
+        if comp_type == 'i':
+            temp_sprite = Sprite('invincibility_powerup', GameData.tile_size, GameData.tile_size,
+                                 row * GameData.tile_size,
+                                 col * GameData.tile_size)
+            new_powerup = comp_map[comp_type](row * GameData.tile_size, col * GameData.tile_size, GameData.tile_size,
+                                              GameData.tile_size,
+                                              temp_sprite, PowerupTypes.invincibility)
+            self.add_component(new_powerup, 5)
 
         # create walls
         if comp_type == '#' or comp_type == ' ':

@@ -6,6 +6,9 @@ from GameTime import GameTime
 from Pathfinder import Pathfinder
 from Physics import Physics
 from CollisionTypes import CollisionTypes
+from GameData import GameData
+from PowerupTypes import PowerupTypes
+from Events import Events
 import random
 
 
@@ -17,9 +20,14 @@ class Enemy(DynamicComp, CompContainer):
         self.speed = 200
         self.follow_distance = 5
         self.damage = 1
+        self.xp = 10
 
         self.collision_type = CollisionTypes.enemy
         Physics.add(self, CollisionTypes.enemy)
+
+        self.add_component(self.sprite)
+
+        Events.connect("enemy_killed", self, self.free)
 
         # self.timer = Timer(self.timer_timeout)
         # self.add_component(self.timer)
@@ -34,6 +42,9 @@ class Enemy(DynamicComp, CompContainer):
         # follow player if ready to move
         if self.destination is None:
             dir = Pathfinder.get_smaller_cell_dir(self.position)
+            if GameData.player is not None:
+                if GameData.player.current_powerup == PowerupTypes.invincibility:
+                    dir = Pathfinder.get_bigger_cell_dir(self.position)
             cell_value = Pathfinder.get_cell_value(self.position)
             if dir is not None and cell_value <= self.follow_distance:
                 self.move_to_cell(dir)
@@ -49,6 +60,13 @@ class Enemy(DynamicComp, CompContainer):
                 self.move(movement_vec)
             else:
                 self.move(movement_vec)
+
+    def free(self, comp):
+        if comp is not self:
+            return
+        self.parent.remove_component(self)
+        Physics.remove(self, self.collision_type)
+        Events.emit("give_xp", self.xp)
 
     def timer_timeout(self):
         if self.destination is None:

@@ -1,10 +1,11 @@
 import pygame
 from Vector2 import Vector2
-from CollisionTypes import CollisionTypes
+from CompContainer import CompContainer
 
 
-class StaticComp:
+class StaticComp(CompContainer):
     def __init__(self, x, y, width, height, sprite):
+        CompContainer.__init__(self)
         self.x = x
         self.y = y
         self.width = width
@@ -14,10 +15,11 @@ class StaticComp:
         self.position = Vector2(x, y)
 
     def self_draw(self, win):
+        self.draw(win)
         self.sprite.draw(win)
 
     def self_handle_event(self, event):
-        pass
+        self.handle_event(event)
 
     def self_update(self):
-        pass
+        self.update()

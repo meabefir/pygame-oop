@@ -48,10 +48,10 @@ class CompContainer:
             component.self_draw(win)
 
     # def self_handle_event(self, event):
-    #     pass
+    #     self.handle_event(event)
     #
     # def self_update(self):
-    #     pass
+    #     self.update()
     #
     # def self_draw(self, win):
-    #     pass
+    #     self.draw(win)

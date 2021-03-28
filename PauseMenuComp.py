@@ -25,9 +25,8 @@ class PauseMenuComp(CompContainer, UIComp):
         self.add_component(menu_button)
 
     def load_main_menu(self):
-        self.parent.remove_component(self)
         self.parent.load_main_menu()
-        GameData.game.clear_level()
+        self.parent.remove_component(self)
 
     def self_handle_event(self, event):
         self.handle_event(event)

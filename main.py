@@ -4,10 +4,9 @@ from GameData import GameData
 from CompContainer import CompContainer
 from LevelComp import LevelComp
 from Input import Input
-from Events import Events
+from FPSCounter import FPSCounter
 from CanvasComp import CanvasComp
-
-from TextureLoader import textures
+from Database import Database
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -20,8 +19,8 @@ class Game(CompContainer):
     def __init__(self):
         CompContainer.__init__(self)
 
-        # self.load_level("level2")
         self.load_UI()
+        # self.load_fps()
 
     def run(self):
         # update inputs
@@ -41,6 +40,9 @@ class Game(CompContainer):
             self.remove_component(level_playing)
             GameData.current_level = None
 
+            if GameData.user is not None:
+                GameData.user.update_data(Database.get_user(GameData.user.data['username']))
+
     def load_level(self, name):
         self.clear_level()
         # create new level
@@ -52,6 +54,11 @@ class Game(CompContainer):
     def load_UI(self):
         new_ui = CanvasComp(0, 0, GameData.window_size[0], GameData.window_size[1])
         self.add_component(new_ui, 10)
+
+    def load_fps(self):
+        size = (100, 50)
+        fps_counter = FPSCounter(0, GameData.window_size[1] - size[1], size[0], size[1])
+        self.add_component(fps_counter)
 
 
 game = Game()
