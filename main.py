@@ -1,4 +1,5 @@
 import pygame, sys
+from Camera import Camera
 from GameTime import GameTime
 from GameData import GameData
 from CompContainer import CompContainer
@@ -28,6 +29,7 @@ class Game(CompContainer):
 
         # update logic
         self.update()
+        Camera.update()
 
         # draw
         window.fill(GameData.background_color)

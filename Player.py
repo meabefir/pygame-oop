@@ -12,6 +12,7 @@ from Timer import Timer
 from HeartsComp import HeartsComp
 from Sprite import Sprite
 from PowerupTypes import PowerupTypes
+from Camera import Camera
 
 directions = {
     pygame.K_a: (-1, 0),
@@ -138,3 +139,5 @@ class Player(DynamicComp):
         temp_sprite = Sprite("heart", 50, 50, 0, 0)
         new_heart_comp = HeartsComp(0, 0, 0, 0, temp_sprite)
         self.add_component(new_heart_comp)
+
+        Camera.set_follows(self)
