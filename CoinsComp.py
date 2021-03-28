@@ -17,8 +17,9 @@ class CoinsComp(CompContainer, UIComp):
 
     def init(self):
         # create coin sprite
-        coins_sprite = Sprite('coins', GameData.tile_size, GameData.tile_size, self.x, self.y)
-        coins_label = LabelComp(self.x + GameData.tile_size, self.y, GameData.tile_size, GameData.tile_size, '0', 40)
+        coins_sprite = Sprite('coins', GameData.tile_size, GameData.tile_size, self.x, self.y, ui_sprite=True)
+        coins_label = LabelComp(self.x + GameData.tile_size, self.y, GameData.tile_size, GameData.tile_size, '0', 40,
+                                color=(255, 255, 255))
         self.add_component(coins_sprite)
         self.add_component(coins_label)
 

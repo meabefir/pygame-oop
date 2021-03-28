@@ -136,7 +136,7 @@ class Player(DynamicComp):
 
     def init(self):
         # hearts component
-        temp_sprite = Sprite("heart", 50, 50, 0, 0)
+        temp_sprite = Sprite("heart", 50, 50, 0, 0, ui_sprite=True)
         new_heart_comp = HeartsComp(0, 0, 0, 0, temp_sprite)
         self.add_component(new_heart_comp)
 

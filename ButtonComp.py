@@ -1,6 +1,7 @@
 import pygame
 from UIComp import UIComp
 from CompContainer import CompContainer
+from Camera import Camera
 
 
 class ButtonComp(UIComp, CompContainer):

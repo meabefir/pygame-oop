@@ -15,11 +15,12 @@ class XpComp(CompContainer, UIComp):
         Events.connect("set_xp", self, self.set_xp)
 
     def init(self):
-        self.xp_label = LabelComp(self.x, self.y, self.width, self.height, f'XP: {GameData.user.data["xp"]}')
+        self.xp_label = LabelComp(self.x, self.y, self.width, self.height, f'XP: {GameData.user.data["xp"]}',
+                                  color=(255, 255, 255))
         self.add_component(self.xp_label)
 
         self.level_label = LabelComp(self.x, self.y + GameData.tile_size, self.width, self.height,
-                                     f'Level: {GameData.user.data["level"]}')
+                                     f'Level: {GameData.user.data["level"]}', color=(255, 255, 255))
         self.add_component(self.level_label)
 
     def set_xp(self, xp, level):

@@ -41,6 +41,9 @@ class Vector2:
     def __mul__(self, value):
         return Vector2(self.x * value, self.y * value)
 
+    def __truediv__(self, value):
+        return Vector2(self.x / value, self.y / value)
+
     def to_int(self):
         return Vector2(int(self.x), int(self.y))
 

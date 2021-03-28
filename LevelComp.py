@@ -63,6 +63,7 @@ class LevelComp(CompContainer):
             self.update()
 
     def self_draw(self, win):
+        win.fill((0, 0, 0))
         self.draw(win)
 
     def init(self):
@@ -91,7 +92,7 @@ class LevelComp(CompContainer):
 
                 row += 1
                 line = f.readline()
-                if self.cols is None:
+                if self.cols is None or col > self.cols:
                     self.cols = col
             self.rows = row
 

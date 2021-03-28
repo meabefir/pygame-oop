@@ -39,6 +39,7 @@ class Game(CompContainer):
     def clear_level(self):
         level_playing = self.has_component_of_class(LevelComp)
         if level_playing is not None:
+            Camera.set_follows(None)
             self.remove_component(level_playing)
             GameData.current_level = None
 

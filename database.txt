@@ -1,1 +1,1 @@
-{"test": {"username": "test", "password": "test", "coins": 0, "level": 0, "xp": 0, "completed_levels": []}}
+{"test": {"username": "test", "password": "test", "coins": 0, "level": 0, "xp": 0, "completed_levels": []}, "": {"username": "", "password": "", "coins": 0, "level": 0, "xp": 0, "completed_levels": []}}
