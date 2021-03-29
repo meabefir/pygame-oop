@@ -13,7 +13,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 window = pygame.display.set_mode(GameData.window_size, 0, 32)
-pygame.display.set_caption('Ahmed game')
+pygame.display.set_caption('Ahmed Game')
 
 
 class Game(CompContainer):
@@ -25,7 +25,7 @@ class Game(CompContainer):
 
     def run(self):
         # update inputs
-        # self.handle_event()
+        self.handle_event(None)
 
         # update logic
         self.update()
@@ -73,7 +73,7 @@ while running:
         Input.handle_input(event)
         game.handle_event(event)
 
-    game.handle_event(None)
+    #game.handle_event(None)
 
     game.run()
 

@@ -14,5 +14,6 @@ class LevelButtonComp(ButtonComp):
     def init(self):
         if self.text in GameData.user.data["completed_levels"]:
             # create checkmark
-            new_checkmark = Sprite("check", self.height, self.height, self.x + self.width - self.height, self.y)
+            new_checkmark = Sprite("check", self.height, self.height, self.x + self.width - self.height, self.y,
+                                   ui_sprite=True)
             self.add_component(new_checkmark)
