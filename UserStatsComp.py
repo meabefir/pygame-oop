@@ -14,7 +14,7 @@ class UserStatsComp(UIComp, CompContainer):
         self.init()
 
     def init(self):
-        user_data = Database.data[GameData.user.data["username"]]
+        user_data = GameData.user.data
         y_start = 20
         size = (400, 200)
 
@@ -40,7 +40,7 @@ class UserStatsComp(UIComp, CompContainer):
 
         level_label = LabelComp(self.x + self.width / 2 - size[0] / 2, coins_label.bottom + y_start, size[0],
                                 size[1] / 2,
-                                f'Level: {user_data["coins"]}', 32)
+                                f'Level: {user_data["level"]}', 32)
         self.add_component(level_label)
 
         # back button

@@ -2,6 +2,7 @@ from Events import Events
 from Database import Database
 from copy import deepcopy
 
+
 class User:
     def __init__(self, data={}):
         self.data = deepcopy(data)
@@ -15,9 +16,10 @@ class User:
         self.data = deepcopy(data)
 
     def update_data(self, data):
-        for key in data:
-            if key in self.data:
-                self.data[key] = data[key]
+        data = deepcopy(data)
+        for key in self.data:
+            if key in data:
+                self.data[key] = deepcopy(data[key])
 
     def coin_picked(self, *args):
         new_data = {
@@ -30,11 +32,15 @@ class User:
         if level in self.data["completed_levels"]:
             return
 
+        new_levels = deepcopy(self.data["completed_levels"])
+        new_levels.append(level)
+
         new_data = {
-            "completed_levels": self.data["completed_levels"] + [level]
+            "completed_levels": new_levels
         }
         self.update_data(new_data)
         Database.update_user(self.data)
+
         # Database.save_database() # already in update user
 
     def give_xp(self, amm):

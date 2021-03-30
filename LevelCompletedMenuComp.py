@@ -27,7 +27,6 @@ class LevelCompletedMenuComp(CompContainer, UIComp):
     def load_main_menu(self):
         self.parent.remove_component(self)
         self.parent.load_main_menu()
-        GameData.game.clear_level()
 
     def self_handle_event(self, event):
         self.handle_event(event)

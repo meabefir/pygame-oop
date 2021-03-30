@@ -45,7 +45,7 @@ class Game(CompContainer):
             GameData.current_level = None
 
             if GameData.user is not None:
-                GameData.user.update_data(Database.get_user(GameData.user.data['username']))
+                GameData.user.set_data(Database.get_user(GameData.user.data['username']))
 
     def load_level(self, name):
         self.clear_level()
