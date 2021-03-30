@@ -3,7 +3,7 @@ from Events import Events
 
 
 class Database:
-    file_path = "database.txt"
+    file_path = "database.json"
     data = None
 
     @staticmethod

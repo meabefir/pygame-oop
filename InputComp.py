@@ -17,7 +17,7 @@ class InputComp(UIComp):
         self.font_size = font_size
         self.outline = outline
 
-        self.font = pygame.font.Font(None, font_size)
+        self.font = pygame.font.SysFont('comicsans', font_size)
         self.placeholder_surface = self.font.render(self.placeholder, True, self.color)
         self.txt_surface = self.font.render(self.text, True, self.color)
         self.active = False

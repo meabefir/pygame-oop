@@ -9,6 +9,7 @@ from FPSCounter import FPSCounter
 from CanvasComp import CanvasComp
 from Database import Database
 
+
 pygame.init()
 clock = pygame.time.Clock()
 

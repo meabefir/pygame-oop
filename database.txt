@@ -1,1 +1,0 @@
-{"test11": {"username": "test11", "password": "test11", "coins": 6, "level": 0, "xp": 10, "completed_levels": ["level1", "level2"]}}
