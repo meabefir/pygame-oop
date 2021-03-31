@@ -66,13 +66,20 @@ class LevelComp(CompContainer):
         win.fill((0, 0, 0))
         self.draw(win)
 
+    def free(self):
+        self.parent.remove_component(self)
+
     def init(self):
+        # # test
+        # self.big = [1 for x in range(100000000)]
+
         self.build_level()
 
         self.load_ui()
         # create pause menu
 
     def level_completed(self, *args):
+
         self.completed = True
         self.paused = True
 

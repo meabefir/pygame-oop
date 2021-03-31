@@ -94,7 +94,7 @@ class LoginComp(UIComp, CompContainer):
         error_comp = self.has_component_of_class(ErrorComp)
         if error_comp:
             self.remove_component(error_comp)
-        size = (400, 100)
+        size = (400, 150)
         new_error_comp = ErrorComp(GameData.window_size[0] / 2 - size[0] / 2, 50, size[0], size[1],
                                    text)
         self.add_component(new_error_comp)

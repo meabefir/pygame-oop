@@ -14,12 +14,13 @@ class LabelComp(UIComp):
         if self.text != '':
             lines = self.text.split("\n")
             lines_count = len(lines)
-            space_for_one = self.height / (lines_count + 1)
+            #space_for_one = self.height / (lines_count + 1)
+            space_for_one = self.height / (lines_count)
             for i, text_line in enumerate(lines):
-                font = pygame.font.SysFont('comicsans', self.font_size)
+                font = pygame.font.SysFont('calibri', self.font_size)
                 text = font.render(text_line, 1, self.color)
                 draw_x = self.x + (self.width / 2 - text.get_width() / 2)
-                draw_y = self.y + (i + 1) * (space_for_one - text.get_height() / 2)
+                draw_y = self.y + (i) * (space_for_one) + (space_for_one-text.get_height()) / 2
                 if self.center is False:
                     draw_x = self.x
                 win.blit(text, (draw_x, draw_y))

@@ -6,6 +6,7 @@ from GameData import GameData
 from LabelComp import LabelComp
 from Database import Database
 
+
 class UserStatsComp(UIComp, CompContainer):
     def __init__(self, x, y, width, height):
         CompContainer.__init__(self)
@@ -30,16 +31,16 @@ class UserStatsComp(UIComp, CompContainer):
             text += "No levels completed"
 
         levels_label = LabelComp(self.x + self.width / 2 - size[0] / 2, username_label.bottom + y_start, size[0],
-                                 size[1], text, 32)
+                                 size[1] * 1.5, text, 32)
         self.add_component(levels_label)
 
-        coins_label = LabelComp(self.x + self.width / 2 - size[0] / 2, levels_label.bottom + y_start, size[0],
-                                size[1] / 2,
+        coins_label = LabelComp(self.x + self.width / 2 - size[0] / 2, levels_label.bottom, size[0],
+                                size[1] / 4,
                                 f'Coins collected: {user_data["coins"]}', 32)
         self.add_component(coins_label)
 
         level_label = LabelComp(self.x + self.width / 2 - size[0] / 2, coins_label.bottom + y_start, size[0],
-                                size[1] / 2,
+                                size[1] / 4,
                                 f'Level: {user_data["level"]}', 32)
         self.add_component(level_label)
 

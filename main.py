@@ -41,7 +41,7 @@ class Game(CompContainer):
         level_playing = self.has_component_of_class(LevelComp)
         if level_playing is not None:
             Camera.set_follows(None)
-            self.remove_component(level_playing)
+            level_playing.free()
             GameData.current_level = None
 
             if GameData.user is not None:

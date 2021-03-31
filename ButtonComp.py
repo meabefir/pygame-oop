@@ -27,7 +27,7 @@ class ButtonComp(UIComp, CompContainer):
         pygame.draw.rect(win, self.background_color, (self.x, self.y, self.width, self.height), 0)
 
         if self.text != '':
-            font = pygame.font.SysFont('comicsans', self.font_size)
+            font = pygame.font.SysFont('calibri', self.font_size)
             text = font.render(self.text, 1, self.color)
             win.blit(text,
                      (self.x + (self.width / 2 - text.get_width() / 2),
